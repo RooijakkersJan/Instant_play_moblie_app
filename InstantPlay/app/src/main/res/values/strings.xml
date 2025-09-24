@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SMC-InstantPlay</string>
+    <string name="century_font">century-gothic.ttf</string>
+    <string name="century_font_bold">century-gothic-bold.ttf</string>
+</resources>

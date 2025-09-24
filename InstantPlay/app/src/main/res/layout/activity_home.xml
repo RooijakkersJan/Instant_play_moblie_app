@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:context=".Activity.HomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/relativehead"
+        android:background="#142047"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/txtlogout"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/logout"
+            android:gravity="end"
+             />
+
+        <ImageView
+            android:id="@+id/mastervol"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="55dp"
+            android:layout_alignRight="@+id/txtlogout"
+            android:src="@drawable/volume"
+            android:gravity="end"
+            />
+        <ImageView
+            android:id="@+id/calenschd"
+            android:layout_width="45dp"
+            android:layout_height="35dp"
+            android:src="@drawable/schd"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="100dp"
+            android:visibility="visible"
+            android:layout_alignParentEnd="true"
+            android:gravity="end"
+            />
+
+
+        <TextView
+            android:id="@+id/txtClientname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtlogout"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text=" Clientname"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+
+        <RadioButton
+            android:id="@+id/radioInstant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#ffffff"
+            android:textColor="#ffffff"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/txtClientname"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="Instant Playlist"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioKbd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:textColor="#ffffff"
+            android:buttonTint="#ffffff"
+            android:layout_toRightOf="@+id/radioInstant"
+            android:layout_below="@id/txtClientname"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            android:text="View Schedule" />
+
+
+
+        <RadioButton
+            android:id="@+id/radioAdPlaylist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:textColor="#ffffff"
+            android:buttonTint="#ffffff"
+            android:layout_toRightOf="@+id/radioKbd"
+            android:layout_below="@id/txtClientname"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:text="Instant Ads" />
+
+        <TextView
+            android:id="@+id/txtplayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radioInstant"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="0dp"
+            android:text=" Select Player No"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <com.Adv.developer.instantmobile.CustomSpinner
+            android:layout_width="match_parent"
+            android:id="@+id/dropdowntokenlist"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/txtplayer"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/dropdownboxshape"
+           >
+        </com.Adv.developer.instantmobile.CustomSpinner>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:id="@+id/dropdownkbdtoken"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="gone"
+            android:layout_below="@id/txtplayer"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/dropdownboxshape"
+            >
+        </Spinner>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/dropdownplaylist"
+            android:layout_height="48dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@id/dropdowntokenlist"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible"
+            android:background="@drawable/dropdownboxshape">
+        </Spinner>
+
+
+        <TextView
+            android:id="@+id/txtplaylist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_below="@id/dropdownplaylist"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:text=" Select Playlist"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/spinnerlay"
+        android:visibility="gone"
+        android:background="#0f7db0">
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/progress_view"
+            android:visibility="visible"
+            android:layout_marginTop="7dp"
+            android:layout_centerInParent="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:cpv_animAutostart="true"
+            app:cpv_indeterminate="true"
+            app:cpv_color="#ffffff"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="0dp"
+        android:orientation="vertical">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="0.5dp"
+            android:id="@+id/lvSongs">
+
+        </ListView>
+
+    </LinearLayout>
+
+</LinearLayout>

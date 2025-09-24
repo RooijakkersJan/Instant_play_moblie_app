@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="290dp"
+    android:layout_gravity="center"
+    android:background="@drawable/chipcircle"
+    android:backgroundTint="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/txtstaic"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:singleLine="true"
+        android:text="Select Volume"
+        android:textAlignment="center"
+        android:textColor="#0f7db0"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.Adv.developer.instantmobile.CustomSpinner
+        android:layout_width="match_parent"
+        android:id="@+id/dropdownvol"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/txtplayer"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/dropdownboxshape"
+        >
+    </com.Adv.developer.instantmobile.CustomSpinner>
+
+
+</LinearLayout>

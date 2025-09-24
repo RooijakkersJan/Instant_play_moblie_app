@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:orientation="vertical"
+    tools:context=".Activity.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".38"
+        android:gravity="center"
+
+        >
+
+        <ImageView
+            android:layout_marginBottom="4dp"
+            android:layout_width="150dp"
+            android:layout_height="400dp"
+            android:src="@drawable/smclogin"
+            android:id="@+id/imageLogin"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".14"
+        >
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_back"
+            android:drawableLeft="@drawable/user_name"
+            android:hint="Email"
+            android:textColorHint="@color/Black"
+            android:id="@+id/edit_username"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".14"
+        >
+
+        <EditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_back"
+            android:drawableLeft="@drawable/token_no"
+            android:hint="Password"
+            android:id="@+id/edit_tokenNo"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:textColorHint="@color/Black"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".13"
+        android:visibility="gone"
+        >
+        <EditText
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_back"
+            android:drawableLeft="@drawable/dealer_code"
+            android:hint="Dealer Code"
+            android:inputType="textEmailAddress"
+            android:singleLine="true"
+            android:id="@+id/edit_dealerCode"
+            android:textColorHint="@color/Black"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".21"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        >
+
+        <ImageButton
+            android:id="@+id/btn_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/cancelogin" />
+
+        <ImageButton
+            android:id="@+id/btn_Submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/submitlogin" />
+
+    </LinearLayout>
+
+</LinearLayout>

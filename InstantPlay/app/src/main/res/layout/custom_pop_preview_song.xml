@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="500dp"
+    android:layout_gravity="center"
+    android:background="@drawable/chipcircle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/startcl"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+            android:id="@+id/txtgettime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="StartTime:"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.70"
+        android:orientation="vertical">
+
+         <TimePicker
+            android:id="@+id/timePickerfrschd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:timePickerMode="spinner" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/endclk"
+        android:layout_below="@+id/startcl"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.30"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtendtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="5dp"
+                android:text="EndTime:"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.70"
+            android:orientation="vertical">
+
+            <TimePicker
+                android:id="@+id/timePickerfrschd2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:timePickerMode="spinner" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vol"
+        android:visibility="gone"
+        android:layout_below="@+id/endclk"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.30"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtvol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Volume:"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.70"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_vol"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:drawableTint="@color/radio_button_selected_color"
+                android:drawableLeft="@drawable/volume"
+                android:hint="     Vol-Range(0-100)"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textSize="15dp"
+                android:textColorHint="@color/Black" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/vol"
+        android:backgroundTint="#ffffff"
+        android:contentDescription="null"
+        android:src="@drawable/submitlogin" />
+
+</RelativeLayout>

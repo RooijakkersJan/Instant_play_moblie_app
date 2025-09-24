@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:id="@+id/background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.15">
+
+            <ImageView
+                android:id="@+id/imageadvt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:src="@drawable/song_icon" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.70"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/playlistitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/music_icon"
+                android:paddingLeft="8dp"
+                android:textColor="#000000"
+                android:paddingTop="17dp"
+                android:singleLine="true"
+                android:text="SongSongSongSong"
+                android:textSize="17sp"
+                />
+
+            <TextView
+                android:id="@+id/timedisp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/music_icon"
+                android:paddingLeft="8dp"
+                android:textColor="#142047"
+                android:paddingTop="5dp"
+                android:singleLine="true"
+                android:visibility="gone"
+                android:text="Schedule Playlist Assigned to Player "
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="0.18"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/editschd"
+                android:background="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:src="@drawable/edit"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
