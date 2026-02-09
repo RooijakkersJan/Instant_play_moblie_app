@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="440dp"
+    android:layout_gravity="center"
+    android:background="@drawable/chipcircle"
+    android:backgroundTint="#ffffff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+
+    <ImageView
+        android:id="@+id/sendinstant"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/send"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:maxLines="6"
+        android:hint="Type your text here"
+        android:gravity="top|start"
+        android:layout_below="@id/sendinstant"
+        android:id="@+id/edttxtsend"/>
+
+    <RadioGroup
+        android:id="@+id/groupScreencasttype"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/edttxtsend"
+        android:layout_marginStart="20dp">
+
+        <RadioButton
+            android:id="@+id/radio_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#0000FF"
+            android:textStyle="bold"
+            android:text="Event"
+            android:textColor="#0f7db0"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/radio_warn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#0000FF"
+            android:textColor="#0f7db0"
+            android:textStyle="bold"
+            android:text="Warning"
+            android:textSize="16dp" />
+
+    </RadioGroup>
+
+
+    <com.Adv.developer.instantmobile.CustomSpinner
+        android:layout_width="match_parent"
+        android:id="@+id/dropdownscreens"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/groupScreencasttype"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/dropdownboxshape"
+        >
+    </com.Adv.developer.instantmobile.CustomSpinner>
+
+    <TextView
+        android:id="@+id/txtdur"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="27dp"
+        android:singleLine="true"
+        android:layout_marginLeft="20dp"
+        android:text="Duration :"
+        android:textAlignment="textStart"
+        android:layout_below="@id/groupScreencasttype"
+        android:textColor="#0f7db0"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="20dp"
+        android:hint="(In secs)"
+        android:inputType="number"
+        android:layout_toRightOf="@id/txtdur"
+        android:layout_below="@id/groupScreencasttype"
+        android:id="@+id/edttxtsec"/>
+
+    <CheckBox
+        android:id="@+id/checkAlways"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:buttonTint="#0000FF"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:textColor="#0f7db0"
+        android:layout_below="@id/txtdur"
+        android:text="Always Play on screen" />
+
+
+</RelativeLayout>

@@ -18,9 +18,70 @@ public class Songs implements Serializable, Comparator {
     private String t_Time = "";
     private String Cat = "";
     private String title_Id = "";
+    private String audiopromoid = "";
+
     private int is_Downloaded = 0 ;
     private String SongPath = "";
     private long SerialNo = 0;
+
+    public String logourl="";
+    public String audiourl="";
+    public String audiopromosize="";
+
+    public String txt="";
+    public String casttype="";
+
+    public String txtdur="";
+
+
+    public String getLogourl()
+    {
+        return logourl;
+    }
+
+    public void setText(String id) {
+        txt=id;
+    }
+    public String gettext()
+    {
+        return txt;
+    }
+    public void setcastType(String id) {
+        casttype=id;
+    }
+    public String getcastType()
+    {
+        return casttype;
+    }
+    public void setTextduration(String id) {
+        txtdur=id;
+    }
+    public String gettextduration()
+    {
+        return txtdur;
+    }
+
+    public void setLogourl(String id) {
+        logourl=id;
+    }
+
+    public String getAudiourl()
+    {
+        return audiourl;
+    }
+
+    public void setAudiourl(String id) {
+        audiourl=id;
+    }
+
+    public String getAudioPromosize()
+    {
+        return audiopromosize;
+    }
+
+    public void setAudioPromosize(String id) {
+        audiopromosize=id;
+    }
 
     public String getSongPath() {
         return SongPath;
@@ -145,6 +206,7 @@ public class Songs implements Serializable, Comparator {
         this.title_Id = title_Id;
     }
 
+
     public long getSerialNo() {
         return SerialNo;
     }
@@ -165,6 +227,14 @@ public class Songs implements Serializable, Comparator {
     }
     public void setCheckValue(int selected) {
         isChecked = selected;
+    }
+
+    public String getAudioPromoId() {
+        return audiopromoid;
+    }
+
+    public void setAudioPromoId(String title_Id) {
+        this.audiopromoid = title_Id;
     }
 
     @Override

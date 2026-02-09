@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity implements OkHttpUtil.OkHtt
 
             json.put("email",user_Name );
             json.put("password",token_ID);
-            json.put("DBType","Nusign");
+            json.put("DBType","Nusi");
 
 
             new OkHttpUtil(LoginActivity.this, Constants.CHECKCustomerLogin,json.toString(),

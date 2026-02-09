@@ -3,7 +3,9 @@ package com.Adv.developer.instantmobile;
 public class Constants {
 
     public static final String SERVER = "https://applicationaddons.com/api/";
-   // public static final String SERVER = "https://api.lcdmedia-audio.com/api/";
+  // public static final String SERVER = "https://api.htvled.com/api/";
+
+    // public static final String SERVER = "https://api.lcdmedia-audio.com/api/";
 
     public static final String GetPlayerToken = SERVER + "FillTokenInfo";//DeviceId
     public static final int GetPlayerToken_TAG = 1;
@@ -50,4 +52,9 @@ public class Constants {
  public static String smcupd="ForceUpdate";
  public static final String PlayerUpdate= SERVER + smcupd;//DeviceId,TokenNo,UserName
  public static final int PlayerUpdate_TAG= 14;
+
+ public static final String AlarmTitles= SERVER + "GetClientAlarm";//DeviceId,TokenNo,UserName
+ public static final int Alarm_Titles_TAG= 15;
+ public static final String GroupAlarmSend= SERVER + "GetClientPlayerGroups";//DeviceId,TokenNo,UserName
+ public static final int Alarm_Send_TAG= 16;
 }

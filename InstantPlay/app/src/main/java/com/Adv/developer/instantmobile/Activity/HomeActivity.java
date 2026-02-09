@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.Group;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,18 +15,22 @@ import android.view.WindowManager;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.Adv.developer.instantmobile.Adapter.AlaramAdapter;
+import com.Adv.developer.instantmobile.Adapter.AlarmScreenPop;
 import com.Adv.developer.instantmobile.Adapter.AllPlaylistAdapter;
 import com.Adv.developer.instantmobile.Adapter.MyAdapter;
 import com.Adv.developer.instantmobile.Adapter.PlaylistAdapter;
@@ -33,6 +39,8 @@ import com.Adv.developer.instantmobile.Adapter.VolumeAdapterPop;
 import com.Adv.developer.instantmobile.AdvikonPreference;
 import com.Adv.developer.instantmobile.Constants;
 import com.Adv.developer.instantmobile.CustomSpinner;
+import com.Adv.developer.instantmobile.Model.AlarmScreenSelect;
+import com.Adv.developer.instantmobile.Model.AlarmSpecifications;
 import com.Adv.developer.instantmobile.Model.AllPlaylist;
 import com.Adv.developer.instantmobile.Model.KbdPlaylist;
 import com.Adv.developer.instantmobile.Model.SchdPlaylist;
@@ -58,23 +66,33 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 
 public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttpResponse, View.OnClickListener, CustomSpinner.OnSpinnerEventsListener,CompoundButton.OnCheckedChangeListener {
-    public CustomSpinner spinnerfrPlayertoken,spinnerforvol;
+    public CustomSpinner spinnerfrPlayertoken,spinnerforvol,spinnerfrAlarmtxt;
     public Spinner spinnerfrPlaylist,spinnerfrkbdToken;
-    public Dialog pickerDialogpopup,pickerVol;
+    public int currenttxtposition=0;
+    String radioselect="";
+    public EditText txtevacsend;
+    public RadioGroup radioGroup;
+    public TextView txtdur;
+    public Dialog pickerDialogpopup,pickerVol,pickerAlarmScreen;
     public String strtime="",endtime="",user_name="";
-    public ImageView schdplaylist;
+
+    public CheckBox ch;
+    public EditText dursec;
+    public ImageView schdplaylist,sendinstantalarmsg,stopalarmdisp;
     public MyAdapter myAdapter;
     public VolumeAdapterPop voladapt;
+    public AlarmScreenPop screenAdapt;
     public Dialog pickerDialog;
     public ArrayList<SchdPlaylist> schplay=new ArrayList<SchdPlaylist>();
     public RadioButton radioButtonInstant,radioButtonKbd,radioButtonAds;
     public ArrayList<AllPlaylist> allplay=new ArrayList<AllPlaylist>();
 
     RelativeLayout spinlayout;
-    public TextView tv, tv1,tv3;
+    public TextView tv, tv1,tv3,addevac;
 
     public ImageView tv2,volset;
     private String selplaylistid="";
@@ -82,6 +100,7 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
 
     private String selkbtoken="";
     public SongAdapter songAdapter;
+    public AlaramAdapter alarmAdapter;
     public PlaylistAdapter playlistAdapter;
 
     public AllPlaylistAdapter allplaylistAdapter;
@@ -94,6 +113,9 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
     public ArrayList<String> arrspin = new ArrayList<String>();
     public List<KbdPlaylist>  listmap = new ArrayList<KbdPlaylist>();
     public List<Volume> arrvolspin = new ArrayList<Volume>();
+    public List<AlarmScreenSelect> arralrmgrpscreen = new ArrayList<AlarmScreenSelect>();
+
+    public List<String> arralrmgrpscreenaftersel = new ArrayList<String>();
 
     public ArrayList<String>  arrtokenkbd= new ArrayList<String>();
 
@@ -115,13 +137,16 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
         pv = (CircularProgressView) findViewById(R.id.progress_view);
         spinnerfrPlayertoken = (CustomSpinner) findViewById(R.id.dropdowntokenlist);
         spinnerfrPlaylist= (Spinner) findViewById(R.id.dropdownplaylist);
+        stopalarmdisp=(ImageView)findViewById(R.id.stop);
         spinnerfrkbdToken=(Spinner) findViewById(R.id.dropdownkbdtoken);
         fontBold = Typeface.createFromAsset(HomeActivity.this.getAssets(), this.getString(R.string.century_font_bold));
         tv = (TextView) findViewById(R.id.txtplayer);
         tv3 = (TextView) findViewById(R.id.txtClientname);
         tv1 = (TextView) findViewById(R.id.txtplaylist);
         tv2 = (ImageView) findViewById(R.id.txtlogout);
+        addevac= (TextView) findViewById(R.id.txtadd);
         volset=(ImageView) findViewById(R.id.mastervol);
+
         schdplaylist=(ImageView) findViewById(R.id.calenschd);
         radioButtonInstant =(RadioButton) findViewById(R.id.radioInstant);
         radioButtonKbd =(RadioButton) findViewById(R.id.radioKbd);
@@ -134,12 +159,20 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         tv2.setOnClickListener(this);
         volset.setOnClickListener(this);
+        addevac.setOnClickListener(this);
+        stopalarmdisp.setOnClickListener(this);
         schdplaylist.setOnClickListener(this);
         radioButtonKbd.setOnCheckedChangeListener(this);
-       // radioButtonAds.setOnCheckedChangeListener(this);
+        radioButtonAds.setOnCheckedChangeListener(this);
         radioButtonInstant.setOnCheckedChangeListener(this);
         getTokenInfo();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+       // getGroupsForAlarmText();
     }
 
 
@@ -157,10 +190,21 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
                 break;
             }
 
+            case R.id.txtadd: {
+                popupAlarmtextGroups(90);
+                break;
+            }
+
+            case R.id.stop: {
+                instantstopAlarm("");
+                break;
+            }
+
             case R.id.calenschd:
             {
                 radioButtonInstant.setChecked(false);
                 radioButtonKbd.setChecked(false);
+                radioButtonAds.setChecked(false);
                 spinnerfrPlaylist.setVisibility(View.GONE);
                 lvSongs.setVisibility(View.INVISIBLE);
                 getTokenInfo();
@@ -178,10 +222,13 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
                 arrtokentosend.clear();
                 arrtokentodisp.clear();
                 radioButtonKbd.setChecked(false);
+                radioButtonAds.setChecked(false);
                 lvSongs.setVisibility(View.INVISIBLE);
                 //spinnerfrPlaylist.setVisibility(View.GONE);
                 spinnerfrkbdToken.setVisibility(View.GONE);
                 spinnerfrPlaylist.setVisibility(View.VISIBLE);
+                addevac.setVisibility(View.INVISIBLE);
+                stopalarmdisp.setVisibility(View.INVISIBLE);
                 spinnerfrPlayertoken.setVisibility(View.VISIBLE);
                 spinnerfrPlaylist.setSelection(0);
                 getTokenInfo();
@@ -189,21 +236,27 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
 
             }
 
-           /* if (buttonView.getId() == R.id.radioAdPlaylist) {
-                arrtokentosend.clear();
-                arrtokentodisp.clear();
+            if (buttonView.getId() == R.id.radioAdPlaylist) {
+                radioButtonKbd.setChecked(false);
                 radioButtonInstant.setChecked(false);
-                lvSongs.setVisibility(View.INVISIBLE);
-                //spinnerfrPlaylist.setVisibility(View.GONE);
-                spinnerfrkbdToken.setVisibility(View.GONE);
-                spinnerfrPlayertoken.setVisibility(View.VISIBLE);
-                spinnerfrPlaylist.setSelection(0);
-                getTokenInfo();
+                if(radioButtonAds.isChecked())
+                {
 
-            }*/
+                    getEmergencyAlarmText();
+                    spinnerfrPlaylist.setVisibility(View.GONE);
+                    lvSongs.setVisibility(View.INVISIBLE);
+                    addevac.setVisibility(View.VISIBLE);
+                    stopalarmdisp.setVisibility(View.VISIBLE);
+
+                }
+
+            }
 
            if (buttonView.getId() == R.id.radioKbd) {
                 radioButtonInstant.setChecked(false);
+                radioButtonAds.setChecked(false);
+               addevac.setVisibility(View.INVISIBLE);
+               stopalarmdisp.setVisibility(View.INVISIBLE);
                if(radioButtonKbd.isChecked())
                 {
                     getTokenInfo();
@@ -434,6 +487,136 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
         });*/
     }
 
+    public void popupAlarmtextGroups(int pos) {
+        currenttxtposition=pos;
+        pickerAlarmScreen = new Dialog(HomeActivity.this);
+        pickerAlarmScreen.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        pickerAlarmScreen.setContentView(R.layout.alarmtxtpopup);
+        pickerAlarmScreen.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        spinnerfrAlarmtxt = (CustomSpinner)pickerAlarmScreen.findViewById(R.id.dropdownscreens);
+        txtevacsend=(EditText) pickerAlarmScreen.findViewById(R.id.edttxtsend);
+        dursec=(EditText) pickerAlarmScreen.findViewById(R.id.edttxtsec);
+        radioGroup = (RadioGroup)pickerAlarmScreen.findViewById(R.id.groupScreencasttype);
+        txtdur = (TextView) pickerAlarmScreen.findViewById(R.id.txtdur);
+        ch=(CheckBox) pickerAlarmScreen.findViewById(R.id.checkAlways);
+        radioGroup.clearCheck();
+        ch.setChecked(false);
+        if(pos!=90)
+        {
+            txtevacsend.setVisibility(View.GONE);
+            radioGroup.setVisibility(View.GONE);
+
+        }
+        else {
+            txtevacsend.setVisibility(View.VISIBLE);
+            radioGroup.setVisibility(View.VISIBLE);
+        }
+        sendinstantalarmsg=(ImageView) pickerAlarmScreen.findViewById(R.id.sendinstant);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the ID of the selected RadioButton
+                radioselect="";
+                RadioButton selectedRadioButton = (RadioButton)pickerAlarmScreen.findViewById(checkedId);
+                String text = selectedRadioButton.getText().toString();
+                radioselect=text;
+            }
+        });
+        ch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean checked = ((CheckBox) v).isChecked();
+                // Check which checkbox was clicked
+                if (checked){
+                    dursec.setVisibility(View.GONE);
+                    txtdur.setVisibility(View.GONE);
+                }
+                else{
+                    dursec.setVisibility(View.VISIBLE);
+                    txtdur.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+      /*  for(int i=0;i<arralrmgrpscreen.size();i++)
+        {
+            arralrmgrpscreen.get(i).setSelected(true);
+
+        }*/
+        screenAdapt = new AlarmScreenPop(HomeActivity.this, 0, arralrmgrpscreen);
+        spinnerfrAlarmtxt.setAdapter(screenAdapt);
+        spinnerfrAlarmtxt.setSpinnerEventsListener(this);
+        sendinstantalarmsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*arralrmgrpscreenaftersel.clear();
+                for(int i=0;i<arralrmgrpscreen.size();i++)
+                {
+                    if(arralrmgrpscreen.get(i).isSelected())
+                    {
+                        String p=arralrmgrpscreen.get(i).player;
+                        if(!p.equalsIgnoreCase("")) {
+                            String[] values = p.split(",");
+
+                            // Print the individual values
+                            for (String value : values) {
+                                if(value!="null") {
+                                    arralrmgrpscreenaftersel.add(value);
+                                }
+                            }
+                        }
+                    }
+                }*/
+                if(arrtokentosend.size()>0) {
+                    String duration="";
+                       String edttext= txtevacsend.getText().toString();
+                       if(ch.isChecked())
+                       {
+                           duration="28800";
+                       }
+                       else {
+                           duration=dursec.getText().toString();
+                           if(duration.equals(""))
+                           {
+                               duration="15";
+                           }
+                       }
+                  //  Toast.makeText(HomeActivity.this, duration, Toast.LENGTH_LONG).show();
+
+                    instanttxtadd(edttext,radioselect,duration);
+                }
+
+            }
+        });
+
+        pickerAlarmScreen.show();
+      /*  Spinner vol = (Spinner) pickerAlarmScreen.findViewById(R.id.dropdownscreens);
+        ArrayAdapter<AlarmScreenSelect> arrayAdapter = new ArrayAdapter<AlarmScreenSelect>(HomeActivity.this, android.R.layout.simple_spinner_item,arralrmgrpscreen);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vol.setAdapter(arrayAdapter);
+        vol.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,
+                                       int position, long id) {
+                if(position==0)
+                {
+
+                }
+                else {
+                  //  sendVol(arrvolspin.get(position));
+                   // pickerVol.dismiss();
+                }
+
+
+            }
+            @Override
+            public vo
+            id onNothingSelected(AdapterView<?> adapterView) {
+                // TODO Auto-generated method stub
+            }
+        });*/
+    }
+
     public void sendVol(String data)
     {
         try {
@@ -498,6 +681,14 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
                     PlaylistSong(response);
                 }
                 break;
+                case Constants.Alarm_Titles_TAG: {
+                   AlarmText(response); ;
+                }
+                break;
+                case Constants.Alarm_Send_TAG: {
+                    GroupAlarm(response); ;
+                }
+                break;
                 case Constants.AllPlaylistVol_TAG: {
                     fetchvol(response);
                 }
@@ -547,6 +738,32 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
 
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 
+    }
+
+    private void GroupAlarm(String response)
+    {
+        try {
+            JSONObject jsonObjectRes = new JSONObject(response);
+            String Response = jsonObjectRes.getString("response");
+            if(Response.equals("1")) {
+                arralrmgrpscreen.clear();
+                String jsonArray = jsonObjectRes.getString("data");
+                JSONArray arr = new JSONArray(jsonArray);
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject jsonObject = arr.getJSONObject(i);
+                    AlarmScreenSelect schd = new AlarmScreenSelect();
+                    schd.setGrp(jsonObject.getString("GroupName"));
+                    schd.setGrpId(jsonObject.getString("groupId"));
+                    schd.setPlayers(jsonObject.getString("players"));
+                    arralrmgrpscreen.add(schd);
+                }
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.getCause();
+        }
     }
 
     private void getSchdPlaylist()
@@ -789,6 +1006,16 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
             JSONObject jsonObject = new JSONObject(response);
             String res = jsonObject.getString("Response");
             if (res.equals("1")) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(pickerAlarmScreen!=null)
+                        {
+                            pickerAlarmScreen.dismiss();
+                        }
+                    }
+
+                });
                 Toast.makeText(HomeActivity.this, "Request Send", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(HomeActivity.this, "Request Failed ", Toast.LENGTH_LONG).show();
@@ -819,6 +1046,42 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
         }
     }
 
+
+    private void getEmergencyAlarmText()
+    {
+        try {
+            spinlayout.setVisibility(View.VISIBLE);
+            pv.setVisibility(View.VISIBLE);
+            pv.startAnimation();
+            lvSongs.setVisibility(View.INVISIBLE);
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("id",SharedPreferenceUtil.getStringPreference(HomeActivity.this, AdvikonPreference.dfClientId));
+
+            new OkHttpUtil(HomeActivity.this, Constants.AlarmTitles, jsonObject.toString(),
+                    HomeActivity.this, false,
+                    Constants.Alarm_Titles_TAG).
+                    callRequest();
+        } catch (Exception e) {
+            e.getCause();
+        }
+    }
+
+    private void getGroupsForAlarmText()
+    {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("id",SharedPreferenceUtil.getStringPreference(HomeActivity.this, AdvikonPreference.dfClientId));
+
+            new OkHttpUtil(HomeActivity.this, Constants.GroupAlarmSend, jsonObject.toString(),
+                    HomeActivity.this, false,
+                    Constants.Alarm_Send_TAG).
+                    callRequest();
+        } catch (Exception e) {
+            e.getCause();
+        }
+    }
 
     private void getAllTokenPlaylist() {
         try {
@@ -965,8 +1228,8 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
             }
             jsonObject.put("artistid", arrsongs.get(position).getArtist_ID());
             jsonObject.put("artistname", arrsongs.get(position).getAr_Name());
-            jsonObject.put("id", arrsongs.get(position).getTitle_Id());
             jsonObject.put("mediatype", arrsongs.get(position).getMediatype());
+            jsonObject.put("id",arrsongs.get(position).getTitle_Id());
             jsonObject.put("title", arrsongs.get(position).getTitle());
             jsonObject.put("srNo", arrsongs.get(position).getSerialNo());
             jsonObject.put("category", arrsongs.get(position).getPlaylistCat());
@@ -989,7 +1252,6 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
 
             else
             {
-
                 for (int i = 0; i < arrtokentosend.size(); i++) {
                     jsonarray.put(Integer.parseInt(arrtokentosend.get(i)));
                 }
@@ -1006,7 +1268,138 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
         }
     }
 
-   private void getTitlesKbdPlaylist(String playlistid,String cat)
+    public void instantstopAlarm(String type) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("albumid", "0");
+            jsonObject.put("PlayType", "Stop");
+            jsonObject.put("artistid","" );
+            jsonObject.put("artistname", "");
+            jsonObject.put("id","0");
+            jsonObject.put("mediatype","");
+            jsonObject.put("title","");
+            jsonObject.put("srNo",0 );
+            jsonObject.put("category","Normal" );
+            jsonObject.put("type","alarm");
+            jsonObject.put("Repeat", 0);
+            jsonObject.put("screencasttype", "Event");
+            jsonObject.put("audioPromoFileSize", "");
+            jsonObject.put("audioPromoUrl", "");
+            jsonObject.put("logoPromoUrl", "");
+            jsonObject.put("logoPromoFileSize", "");
+            jsonObject.put("alarmText", "");
+            jsonObject.put("alarmTextDuration", "0");
+
+            JSONArray jsonarray = new JSONArray();
+            if(radioButtonKbd.isChecked())
+            {
+                jsonarray.put(Integer.parseInt(selkbtoken));
+            }
+
+            else
+            {
+                for (int i = 0; i < arrtokentosend.size(); i++) {
+                    jsonarray.put(Integer.parseInt(arrtokentosend.get(i)));
+                }
+            }
+
+            jsonObject.put("tid", jsonarray);
+
+            new OkHttpUtil(HomeActivity.this, Constants.CHECKInstantPlay, jsonObject.toString(),
+                    HomeActivity.this, false,
+                    Constants.CHECK_InstantPlay_TAG).
+                    callRequest();
+        } catch (Exception e) {
+            e.getCause();
+        }
+    }
+    public void instanttxt(int pos) {
+        try {
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("albumid", "0");
+            jsonObject.put("PlayType", "Now");
+            jsonObject.put("artistid","" );
+            jsonObject.put("artistname", "");
+            jsonObject.put("mediatype","");
+            jsonObject.put("id",arrsongs.get(pos).getTitle_Id());
+            jsonObject.put("title","");
+            jsonObject.put("srNo",0 );
+            jsonObject.put("category","Normal" );
+            jsonObject.put("type","alarm");
+            jsonObject.put("Repeat", 0);
+            jsonObject.put("audioPromoFileSize", arrsongs.get(pos).getAudioPromosize());
+            jsonObject.put("audioPromoUrl", arrsongs.get(pos).getAudiourl());
+            jsonObject.put("logoPromoUrl", arrsongs.get(pos).getLogourl());
+            jsonObject.put("audioPromoId",arrsongs.get(pos).getAudioPromoId());
+            jsonObject.put("logoPromoFileSize", "30");
+            jsonObject.put("alarmText", arrsongs.get(pos).gettext());
+            jsonObject.put("screencasttype", arrsongs.get(pos).getcastType());
+            jsonObject.put("alarmTextDuration", arrsongs.get(pos).gettextduration());
+
+            JSONArray jsonarray = new JSONArray();
+
+            for (int i = 0; i < arrtokentosend.size(); i++) {
+                jsonarray.put(Integer.parseInt(arrtokentosend.get(i)));
+            }
+
+            jsonObject.put("tid", jsonarray);
+
+            new OkHttpUtil(HomeActivity.this, Constants.CHECKInstantPlay, jsonObject.toString(),
+                    HomeActivity.this, false,
+                    Constants.CHECK_InstantPlay_TAG).
+                    callRequest();
+        } catch (Exception e) {
+            e.getCause();
+        }
+    }
+
+    public void instanttxtadd(String txt,String screencasttype,String dur) {
+        try {
+            if(screencasttype.equals(""))
+            {
+                screencasttype="Event";
+            }
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("albumid", "0");
+            jsonObject.put("PlayType", "Now");
+            jsonObject.put("artistid","" );
+            jsonObject.put("artistname", "");
+            jsonObject.put("id","000");
+            jsonObject.put("mediatype","");
+            jsonObject.put("title","");
+            jsonObject.put("srNo",0 );
+            jsonObject.put("category","Normal" );
+            jsonObject.put("type","alarm");
+            jsonObject.put("Repeat", 0);
+            jsonObject.put("screencasttype", screencasttype);
+            jsonObject.put("audioPromoFileSize", "142942");
+            jsonObject.put("audioPromoUrl", "");
+            jsonObject.put("logoPromoUrl", "");
+            jsonObject.put("logoPromoFileSize", "");
+            jsonObject.put("alarmText", txt);
+            jsonObject.put("alarmTextDuration", dur);
+
+            JSONArray jsonarray = new JSONArray();
+
+            for (int i = 0; i < arrtokentosend.size(); i++) {
+                jsonarray.put(Integer.parseInt(arrtokentosend.get(i)));
+            }
+
+            jsonObject.put("tid", jsonarray);
+
+            new OkHttpUtil(HomeActivity.this, Constants.CHECKInstantPlay, jsonObject.toString(),
+                    HomeActivity.this, false,
+                    Constants.CHECK_InstantPlay_TAG).
+                    callRequest();
+        } catch (Exception e) {
+            e.getCause();
+        }
+    }
+
+
+
+    private void getTitlesKbdPlaylist(String playlistid,String cat)
    {
        try {
            spinlayout.setVisibility(View.VISIBLE);
@@ -1106,6 +1499,47 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
 
     }
 
+
+    private void AlarmText(String response) {
+
+        try {
+            JSONObject jsonObjectRes = new JSONObject(response);
+            String Response = jsonObjectRes.getString("response");
+            if(Response.equals("1")) {
+                arrsongs.clear();
+                String jsonArray = jsonObjectRes.getString("data");
+                JSONArray arr = new JSONArray(jsonArray);
+                for (int i = 0; i < arr.length(); i++) {
+                    JSONObject jsonObject = arr.getJSONObject(i);
+                    Songs schd = new Songs();
+                    schd.setAudiourl(jsonObject.getString("audioPromoUrl"));
+                    schd.setTitle_Id(jsonObject.getString("id"));
+                    schd.setLogourl(jsonObject.getString("logoPromoUrl"));
+                    schd.setAudioPromoId(jsonObject.getString("audioPromoId"));
+                    schd.setText(jsonObject.getString("alarmName"));
+                    schd.setTextduration(jsonObject.getString("duration"));
+                    schd.setAudioPromosize(jsonObject.getString("audioPromoFileSize"));
+                    schd.setcastType(jsonObject.getString("screencasttype"));
+                    arrsongs.add(schd);
+                }
+
+            }
+            spinlayout.setVisibility(View.GONE);
+            pv.setVisibility(View.INVISIBLE);
+            pv.stopAnimation();
+            alarmAdapter = new AlaramAdapter(HomeActivity.this, arrsongs);
+            lvSongs.setAdapter(alarmAdapter);
+            lvSongs.setVisibility(View.VISIBLE);
+
+        } catch (Exception e) {
+            e.getCause();
+        }
+
+    }
+
+
+
+
     public void fetchvol(String response)
     {
         try{
@@ -1201,7 +1635,13 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
                 getSchdPlaylist();
             }
             else {
-                getAllTokenPlaylist();
+                if(radioButtonAds.isChecked()) {
+                   // getEmergencyAlarmText();
+                }
+                else {
+                    getAllTokenPlaylist();
+
+                }
             }
 
 
@@ -1221,6 +1661,7 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
 
     @Override
     public void onSpinnerClosed(Spinner spin) {
+       String h=spin.getAdapter().getClass().getSimpleName();
         int p=spin.getAdapter().getCount();
         if(p>=5)
         {
@@ -1273,6 +1714,11 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
             if (arrtokentosend.size() > 0 && radioButtonKbd.isChecked()) {
                 spinnerfrPlaylist.setVisibility(View.GONE);
                 getSchdPlaylist();
+
+            }
+            if (radioButtonAds.isChecked()) {
+                spinnerfrPlaylist.setVisibility(View.GONE);
+                getEmergencyAlarmText();
 
             }
         }

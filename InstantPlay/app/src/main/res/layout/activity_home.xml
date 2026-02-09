@@ -18,9 +18,9 @@
             android:id="@+id/txtlogout"
             android:layout_width="45dp"
             android:layout_height="35dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"
             android:src="@drawable/logout"
             android:gravity="end"
              />
@@ -29,19 +29,19 @@
             android:id="@+id/mastervol"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="55dp"
-            android:layout_alignRight="@+id/txtlogout"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_alignParentEnd="true"
             android:src="@drawable/volume"
-            android:gravity="end"
+
             />
         <ImageView
             android:id="@+id/calenschd"
             android:layout_width="45dp"
             android:layout_height="35dp"
             android:src="@drawable/schd"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="90dp"
             android:visibility="visible"
             android:layout_alignParentEnd="true"
             android:gravity="end"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtlogout"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
             android:text=" Clientname"
             android:textColor="#ffffff"
             android:textSize="18dp"
@@ -68,7 +68,7 @@
             android:buttonTint="#ffffff"
             android:textColor="#ffffff"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/txtClientname"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -79,8 +79,8 @@
             android:id="@+id/radioKbd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="15dp"
             android:textColor="#ffffff"
             android:buttonTint="#ffffff"
             android:layout_toRightOf="@+id/radioInstant"
@@ -96,24 +96,48 @@
             android:id="@+id/radioAdPlaylist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="18dp"
             android:textColor="#ffffff"
             android:buttonTint="#ffffff"
-            android:layout_toRightOf="@+id/radioKbd"
-            android:layout_below="@id/txtClientname"
+            android:layout_below="@id/radioInstant"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:visibility="gone"
-            android:text="Instant Ads" />
+            android:visibility="visible"
+            android:text="Screencast" />
+
+        <ImageView
+            android:id="@+id/stop"
+            android:layout_width="35dp"
+            android:layout_height="32dp"
+            android:visibility="invisible"
+            android:layout_marginStart="30dp"
+            android:layout_toRightOf="@+id/radioAdPlaylist"
+            android:layout_alignBottom="@id/radioAdPlaylist"
+            android:src="@drawable/stopwhite" />
+
+        <TextView
+            android:id="@+id/txtadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/stop"
+            android:layout_alignBaseline="@id/radioAdPlaylist"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="+ DirectMessage"
+            android:visibility="invisible"
+            android:textColor="#ffffff"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/txtplayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioInstant"
+            android:layout_below="@+id/radioAdPlaylist"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
             android:text=" Select Player No"
             android:textColor="#ffffff"
             android:textSize="18dp"
@@ -203,10 +227,10 @@
         android:orientation="vertical">
 
         <ListView
+            android:id="@+id/lvSongs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="0.5dp"
-            android:id="@+id/lvSongs">
+            android:dividerHeight="0.5dp">
 
         </ListView>
 
