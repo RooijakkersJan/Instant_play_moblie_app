@@ -1289,6 +1289,10 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
             jsonObject.put("logoPromoFileSize", "");
             jsonObject.put("alarmText", "");
             jsonObject.put("alarmTextDuration", "0");
+            jsonObject.put("logoPromoId","");
+            jsonObject.put("logoPromoName","");
+            jsonObject.put("audioPromoName","");
+
 
             JSONArray jsonarray = new JSONArray();
             if(radioButtonKbd.isChecked())
@@ -1336,7 +1340,9 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
             jsonObject.put("alarmText", arrsongs.get(pos).gettext());
             jsonObject.put("screencasttype", arrsongs.get(pos).getcastType());
             jsonObject.put("alarmTextDuration", arrsongs.get(pos).gettextduration());
-
+            jsonObject.put("logoPromoId",arrsongs.get(pos).getlogoPromoId());
+            jsonObject.put("logoPromoName",arrsongs.get(pos).getlogoPromoName());
+            jsonObject.put("audioPromoName",arrsongs.get(pos).getAudioPromoName());
             JSONArray jsonarray = new JSONArray();
 
             for (int i = 0; i < arrtokentosend.size(); i++) {
@@ -1379,6 +1385,9 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
             jsonObject.put("logoPromoFileSize", "");
             jsonObject.put("alarmText", txt);
             jsonObject.put("alarmTextDuration", dur);
+            jsonObject.put("logoPromoId","");
+            jsonObject.put("logoPromoName","");
+            jsonObject.put("audioPromoName","");
 
             JSONArray jsonarray = new JSONArray();
 
@@ -1519,6 +1528,9 @@ public class HomeActivity extends AppCompatActivity implements OkHttpUtil.OkHttp
                     schd.setText(jsonObject.getString("alarmName"));
                     schd.setTextduration(jsonObject.getString("duration"));
                     schd.setAudioPromosize(jsonObject.getString("audioPromoFileSize"));
+                    schd.setAudioPromoName(jsonObject.getString("audioPromoName"));
+                    schd.setlogoPromoId(jsonObject.getString("logoPromoId"));
+                    schd.setlogoPromoName(jsonObject.getString("logoPromoName"));
                     schd.setcastType(jsonObject.getString("screencasttype"));
                     arrsongs.add(schd);
                 }

@@ -30,6 +30,9 @@ public class Songs implements Serializable, Comparator {
 
     public String txt="";
     public String casttype="";
+    public String promoname="";
+    public String logopromoname="";
+    public String logoPromoid="";
 
     public String txtdur="";
 
@@ -53,6 +56,33 @@ public class Songs implements Serializable, Comparator {
     {
         return casttype;
     }
+
+    public void setAudioPromoName(String id) {
+        promoname=id;
+    }
+    public String getAudioPromoName()
+    {
+        return promoname;
+    }
+
+    public void setlogoPromoName(String id) {
+        logopromoname=id;
+    }
+    public String getlogoPromoName()
+    {
+        return logopromoname;
+    }
+
+
+    public void setlogoPromoId(String id) {
+        logoPromoid=id;
+    }
+    public String getlogoPromoId()
+    {
+        return logoPromoid;
+    }
+
+
     public void setTextduration(String id) {
         txtdur=id;
     }
